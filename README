@@ -1,13 +1,6 @@
-## Patching
+## To-Do List
 
-- [ ] https://dwm.suckless.org/patches/statusallmons/
-- [ ] https://github.com/bakkeby/patches/wiki/focusfollowmouse
-- [x] https://github.com/bakkeby/patches/wiki/placemouse
-- [ ] https://dwm.suckless.org/patches/statuscmd/
-- [ ] https://dwm.suckless.org/patches/xresources/
-- [ ] https://dwm.suckless.org/patches/scratchpad/
-- [ ] https://dwm.suckless.org/patches/fibonacci/
-- [x] https://dwm.suckless.org/patches/hide_vacant_tags/
-- [ ] https://dwm.suckless.org/patches/vanitygaps/
-- [x] https://github.com/bakkeby/patches/wiki/swallow
-- [ ] https://dwm.suckless.org/patches/actualfullscreen/dwm-actualfullscreen-20211013-cb3f58a.diff
+- [ ] Write documentation
+- [x] Implement core feature
+- [ ] Add tests
+- [x] Fix bug #42
