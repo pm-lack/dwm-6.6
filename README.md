@@ -3,7 +3,7 @@
 - [ ] [statusallmons](https://dwm.suckless.org/patches/statusallmons/)
 - [ ] [focusfollowmouse](https://github.com/bakkeby/patches/wiki/focusfollowmouse)
 - [x] [placemouse](https://github.com/bakkeby/patches/wiki/placemouse)
-- [ ] [statuscmd](https://dwm.suckless.org/patches/statuscmd/)
+- [x] [statuscmd](https://dwm.suckless.org/patches/statuscmd/)
 - [ ] [xresources](https://dwm.suckless.org/patches/xresources/)
 - [ ] [scratchpad](https://dwm.suckless.org/patches/scratchpad/)
 - [ ] [fibonacci](https://dwm.suckless.org/patches/fibonacci/)
