@@ -130,6 +130,10 @@ struct Monitor {
 	int by;               /* bar geometry */
 	int mx, my, mw, mh;   /* screen size */
 	int wx, wy, ww, wh;   /* window area  */
+	int gappih;           /* horizontal gap between windows */
+	int gappiv;           /* vertical gap between windows */
+	int gappoh;           /* horizontal outer gaps */
+	int gappov;           /* vertical outer gaps */
 	unsigned int seltags;
 	unsigned int sellt;
 	unsigned int tagset[2];
@@ -225,7 +229,6 @@ static void sigstatusbar(const Arg *arg);
 static void spawn(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
-static void tile(Monitor *m);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void togglefullscr(const Arg *arg);
@@ -256,8 +259,6 @@ static int swallow(Client *p, Client *c);
 static void unswallow(Client *c);
 static pid_t getparentprocess(pid_t p);
 static int isdescprocess(pid_t p, pid_t c);
-static int halfscreen = 0;   /* 0 = normal, 1 = restrict tiling to half */
-static int rightside  = 1;   /* 1 = use right half, 0 = use left half */
 static Client *swallowingclient(Window w);
 static Client *termforwin(const Client *c);
 static pid_t winpid(Window w);
@@ -299,6 +300,8 @@ static Drw *drw;
 static Monitor *mons, *selmon;
 static Window root, wmcheckwin;
 static xcb_connection_t *xcon;
+static int halfscreen = 0;
+static int rightside  = 1;
 static void togglehalfscreen(const Arg *arg);
 static void toggleside(const Arg *arg);
 
@@ -709,6 +712,10 @@ createmon(void)
 	m->nmaster = nmaster;
 	m->showbar = showbar;
 	m->topbar = topbar;
+	m->gappih = gappih;
+	m->gappiv = gappiv;
+	m->gappoh = gappoh;
+	m->gappov = gappov;
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
@@ -2061,56 +2068,6 @@ tagmon(const Arg *arg)
 }
 
 void
-tile(Monitor *m)
-{
-	unsigned int i, n, h, mw, my, ty;
-	Client *c;
-
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-	if (n == 0)
-		return;
-
-	/* preserve original monitor geometry */
-	int orig_wx = m->wx;
-	int orig_ww = m->ww;
-
-	/* if halfscreen mode, shrink usable width to half and optionally move to right */
-	if (halfscreen) {
-		/* integer division is fine: orig_ww/2 */
-		m->ww = orig_ww / 2;
-		if (rightside) {
-			/* place the usable region on the right half */
-			m->wx = orig_wx + (orig_ww - m->ww);
-		} else {
-			/* left half: keep m->wx as orig_wx */
-			m->wx = orig_wx;
-		}
-	}
-
-	if (n > m->nmaster)
-		mw = m->nmaster ? m->ww * m->mfact : 0;
-	else
-		mw = m->ww;
-	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
-		if (i < m->nmaster) {
-			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
-			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
-			if (my + HEIGHT(c) < m->wh)
-				my += HEIGHT(c);
-		} else {
-			h = (m->wh - ty) / (n - i);
-			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
-			if (ty + HEIGHT(c) < m->wh)
-				ty += HEIGHT(c);
-		}
-
-	/* restore monitor geometry for subsequent layouts/draws */
-	m->wx = orig_wx;
-	m->ww = orig_ww;
-}
-
-
-void
 togglebar(const Arg *arg)
 {
 	selmon->showbar = !selmon->showbar;
@@ -2603,20 +2560,6 @@ termforwin(const Client *w)
 	return NULL;
 }
 
-void
-togglehalfscreen(const Arg *arg)
-{
-	halfscreen = !halfscreen;
-	arrange(selmon);
-}
-
-void
-toggleside(const Arg *arg)
-{
-	rightside = !rightside;
-	arrange(selmon);
-}
-
 Client *
 swallowingclient(Window w)
 {
@@ -2709,6 +2652,20 @@ zoom(const Arg *arg)
 	if (c == nexttiled(selmon->clients) && !(c = nexttiled(c->next)))
 		return;
 	pop(c);
+}
+
+void
+togglehalfscreen(const Arg *arg)
+{
+	halfscreen = !halfscreen;
+	arrange(selmon);
+}
+
+void
+toggleside(const Arg *arg)
+{
+	rightside = !rightside;
+	arrange(selmon);
 }
 
 int
