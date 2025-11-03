@@ -228,6 +228,7 @@ static void tagmon(const Arg *arg);
 static void tile(Monitor *m);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
+static void togglefullscr(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
 static void unfocus(Client *c, int setfocus);
@@ -255,6 +256,8 @@ static int swallow(Client *p, Client *c);
 static void unswallow(Client *c);
 static pid_t getparentprocess(pid_t p);
 static int isdescprocess(pid_t p, pid_t c);
+static int halfscreen = 0;   /* 0 = normal, 1 = restrict tiling to half */
+static int rightside  = 1;   /* 1 = use right half, 0 = use left half */
 static Client *swallowingclient(Window w);
 static Client *termforwin(const Client *c);
 static pid_t winpid(Window w);
@@ -296,6 +299,8 @@ static Drw *drw;
 static Monitor *mons, *selmon;
 static Window root, wmcheckwin;
 static xcb_connection_t *xcon;
+static void togglehalfscreen(const Arg *arg);
+static void toggleside(const Arg *arg);
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
@@ -2065,6 +2070,23 @@ tile(Monitor *m)
 	if (n == 0)
 		return;
 
+	/* preserve original monitor geometry */
+	int orig_wx = m->wx;
+	int orig_ww = m->ww;
+
+	/* if halfscreen mode, shrink usable width to half and optionally move to right */
+	if (halfscreen) {
+		/* integer division is fine: orig_ww/2 */
+		m->ww = orig_ww / 2;
+		if (rightside) {
+			/* place the usable region on the right half */
+			m->wx = orig_wx + (orig_ww - m->ww);
+		} else {
+			/* left half: keep m->wx as orig_wx */
+			m->wx = orig_wx;
+		}
+	}
+
 	if (n > m->nmaster)
 		mw = m->nmaster ? m->ww * m->mfact : 0;
 	else
@@ -2081,7 +2103,12 @@ tile(Monitor *m)
 			if (ty + HEIGHT(c) < m->wh)
 				ty += HEIGHT(c);
 		}
+
+	/* restore monitor geometry for subsequent layouts/draws */
+	m->wx = orig_wx;
+	m->ww = orig_ww;
 }
+
 
 void
 togglebar(const Arg *arg)
@@ -2104,6 +2131,13 @@ togglefloating(const Arg *arg)
 		resize(selmon->sel, selmon->sel->x, selmon->sel->y,
 			selmon->sel->w, selmon->sel->h, 0);
 	arrange(selmon);
+}
+
+void
+togglefullscr(const Arg *arg)
+{
+  if(selmon->sel)
+    setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
 }
 
 void
@@ -2567,6 +2601,20 @@ termforwin(const Client *w)
 	}
 
 	return NULL;
+}
+
+void
+togglehalfscreen(const Arg *arg)
+{
+	halfscreen = !halfscreen;
+	arrange(selmon);
+}
+
+void
+toggleside(const Arg *arg)
+{
+	rightside = !rightside;
+	arrange(selmon);
 }
 
 Client *
