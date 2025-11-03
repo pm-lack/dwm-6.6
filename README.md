@@ -8,6 +8,6 @@
 - [ ] [scratchpad](https://dwm.suckless.org/patches/scratchpad/)
 - [ ] [fibonacci](https://dwm.suckless.org/patches/fibonacci/)
 - [x] [hide_vacant_tags](https://dwm.suckless.org/patches/hide_vacant_tags/)
-- [ ] [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/)
+- [x] [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/)
 - [x] [swallow](https://github.com/bakkeby/patches/wiki/swallow)
 - [x] [actualfullscreen](https://dwm.suckless.org/patches/actualfullscreen/dwm-actualfullscreen-20211013-cb3f58a.diff)
