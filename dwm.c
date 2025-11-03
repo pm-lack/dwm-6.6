@@ -187,6 +187,7 @@ static void focusin(XEvent *e);
 static void focusmon(const Arg *arg);
 static void focusstack(const Arg *arg);
 static Atom getatomprop(Client *c, Atom prop);
+static Client *getpointerclient(void);
 static int getrootptr(int *x, int *y);
 static long getstate(Window w);
 static pid_t getstatusbarpid();
@@ -966,6 +967,16 @@ getatomprop(Client *c, Atom prop)
 		XFree(p);
 	}
 	return atom;
+}
+
+Client *
+getpointerclient(void)
+{
+	Window dummy, win;
+	int di;
+	unsigned int dui;
+	XQueryPointer(dpy, root, &dummy, &win, &di, &di, &di, &di, &dui);
+	return wintoclient(win);
 }
 
 pid_t
@@ -2140,25 +2151,39 @@ unfocus(Client *c, int setfocus)
 void
 unmanage(Client *c, int destroyed)
 {
-	Client *s;
 	Monitor *m = c->mon;
 	XWindowChanges wc;
 
-	if (c->swallowing)
+	if (c->swallowing) {
 		unswallow(c);
+		return;
+	}
 
-	s = swallowingclient(c->win);
-	if (s)
+	Client *s = swallowingclient(c->win);
+	if (s) {
+		free(s->swallowing);
 		s->swallowing = NULL;
+		arrange(m);
+		if (selmon->sel == c)
+			selmon->sel = NULL;
+		Client *p = getpointerclient();
+		if (p)
+			focus(p);
+		else
+			focus(NULL);
+		return;
+	}
 
 	detach(c);
 	detachstack(c);
+	if (selmon->sel == c)
+		selmon->sel = NULL;  /* <- important */
 	if (!destroyed) {
 		wc.border_width = c->oldbw;
-		XGrabServer(dpy); /* avoid race conditions */
+		XGrabServer(dpy);
 		XSetErrorHandler(xerrordummy);
 		XSelectInput(dpy, c->win, NoEventMask);
-		XConfigureWindow(dpy, c->win, CWBorderWidth, &wc); /* restore border */
+		XConfigureWindow(dpy, c->win, CWBorderWidth, &wc);
 		XUngrabButton(dpy, AnyButton, AnyModifier, c->win);
 		setclientstate(c, WithdrawnState);
 		XSync(dpy, False);
@@ -2166,10 +2191,18 @@ unmanage(Client *c, int destroyed)
 		XUngrabServer(dpy);
 	}
 	free(c);
-	focus(NULL);
-	updateclientlist();
-	arrange(m);
+
+	if (!s) {
+		arrange(m);
+		updateclientlist();
+		Client *p = getpointerclient();
+		if (p)
+			focus(p);
+		else
+			focus(NULL);
+	}
 }
+
 
 void
 unmapnotify(XEvent *e)
