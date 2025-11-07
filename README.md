@@ -1,7 +1,7 @@
 ## Patching To-Do List
 
 - [x] [statusallmons](https://dwm.suckless.org/patches/statusallmons/)
-- [x] [focusfollowmouse](https://github.com/bakkeby/patches/wiki/focusfollowmouse)
+- [x] [focusfollowmouse](https://github.com/bakkeby/patches/wiki/focusfollowmouse) Only follows on client close
 - [x] [placemouse](https://github.com/bakkeby/patches/wiki/placemouse)
 - [ ] [statuscmd](https://dwm.suckless.org/patches/statuscmd/)
 - [ ] [xresources](https://dwm.suckless.org/patches/xresources/)
