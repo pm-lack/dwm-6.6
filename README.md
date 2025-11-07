@@ -8,5 +8,5 @@
 - [x] [fibonacci](https://dwm.suckless.org/patches/fibonacci/)
 - [ ] [hide_vacant_tags](https://dwm.suckless.org/patches/hide_vacant_tags/)
 - [x] [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/)
-- [ ] [swallow](https://github.com/bakkeby/patches/wiki/swallow)
+- [x] [swallow](https://github.com/bakkeby/patches/wiki/swallow)
 - [ ] [actualfullscreen](https://dwm.suckless.org/patches/actualfullscreen/dwm-actualfullscreen-20211013-cb3f58a.diff)
