@@ -1,6 +1,6 @@
 ## Patching To-Do List
 
-- [ ] [statusallmons](https://dwm.suckless.org/patches/statusallmons/)
+- [x] [statusallmons](https://dwm.suckless.org/patches/statusallmons/)
 - [x] [focusfollowmouse](https://github.com/bakkeby/patches/wiki/focusfollowmouse)
 - [x] [placemouse](https://github.com/bakkeby/patches/wiki/placemouse)
 - [ ] [statuscmd](https://dwm.suckless.org/patches/statuscmd/)
