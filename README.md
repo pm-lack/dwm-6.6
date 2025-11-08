@@ -4,7 +4,7 @@
 - [x] [focusfollowmouse](https://github.com/bakkeby/patches/wiki/focusfollowmouse) (Only follows on client close)
 - [x] [placemouse](https://github.com/bakkeby/patches/wiki/placemouse)
 - [ ] [statuscmd](https://dwm.suckless.org/patches/statuscmd/)
-- [ ] [xresources](https://dwm.suckless.org/patches/xresources/)
+- [ ] [xrdb](https://dwm.suckless.org/patches/xrdb/dwm-xrdb-6.4.diff)
 - [ ] [scratchpad](https://dwm.suckless.org/patches/scratchpad/dwm-scratchpad-20240321-061e9fe.diff)
 - [x] [fibonacci](https://dwm.suckless.org/patches/fibonacci/)
 - [x] [hide_vacant_tags](https://dwm.suckless.org/patches/hide_vacant_tags/)
