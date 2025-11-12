@@ -3,7 +3,7 @@
 - [x] [statusallmons](https://dwm.suckless.org/patches/statusallmons/)
 - [x] [focusfollowmouse](https://github.com/bakkeby/patches/wiki/focusfollowmouse) (Only follows on client close)
 - [x] [placemouse](https://github.com/bakkeby/patches/wiki/placemouse)
-- [x] [statuscmd](https://dwm.suckless.org/patches/statuscmd/)
+- [x] [statuscmd](https://gist.github.com/danbyl/54f7c1d57fc6507242a95b71c3d8fdea)
 - [x] [xrdb](https://dwm.suckless.org/patches/xrdb/dwm-xrdb-6.4.diff)
 - [x] [fibonacci](https://dwm.suckless.org/patches/fibonacci/)
 - [x] [hide_vacant_tags](https://dwm.suckless.org/patches/hide_vacant_tags/)
