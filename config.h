@@ -126,6 +126,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_m,      spawn,          SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; kill -44 $(pidof dwmblocks)") },
 	{ MODKEY,			XK_F4,     spawn,          SHCMD(TERMINAL " -e pulsemixer; kill -44 $(pidof dwmblocks)") },
 	{ MODKEY,                       XK_F5,     xrdb,           {.v = NULL } },
+	{ MODKEY,                       XK_u,      xrdb,           {.v = NULL } },
 	{ MODKEY,			XK_F11,    spawn,          SHCMD("mpv --untimed --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(ls /dev/video[0,2,4,6,8] | tail -n 1)") },
 	{ MODKEY|ControlMask,           XK_1,	   tagandview,	   {.ui = 0} },
 	{ MODKEY|ControlMask,           XK_2,	   tagandview,	   {.ui = 1} },
