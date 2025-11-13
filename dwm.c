@@ -254,6 +254,7 @@ static void togglefloating(const Arg *arg);
 static void togglefullscr(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
+static void tagandview(const Arg *arg);
 static void unfocus(Client *c, int setfocus);
 static void unmanage(Client *c, int destroyed);
 static void unmapnotify(XEvent *e);
@@ -2186,6 +2187,25 @@ toggleview(const Arg *arg)
 		focus(NULL);
 		arrange(selmon);
 	}
+}
+
+void
+tagandview(const Arg *arg) {
+    Client *c = selmon->sel;
+    Monitor *m = selmon;
+
+    if(!c || !arg)
+        return;
+
+    /* Move the client to the selected tag (preserves other bits if you want) */
+    c->tags = 1 << arg->ui;
+
+    /* Switch the monitor view to the tag */
+    view(arg);
+
+    /* Optionally, refocus the client on the new tag */
+    focus(NULL);
+    arrange(m);
 }
 
 void
