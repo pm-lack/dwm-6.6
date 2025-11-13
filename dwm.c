@@ -2193,17 +2193,10 @@ void
 tagandview(const Arg *arg) {
     Client *c = selmon->sel;
     Monitor *m = selmon;
-
     if(!c || !arg)
         return;
-
-    /* Move the client to the selected tag (preserves other bits if you want) */
     c->tags = 1 << arg->ui;
-
-    /* Switch the monitor view to the tag */
     view(arg);
-
-    /* Optionally, refocus the client on the new tag */
     focus(NULL);
     arrange(m);
 }
