@@ -2189,16 +2189,11 @@ toggleview(const Arg *arg)
 	}
 }
 
-void
-tagandview(const Arg *arg) {
-    Client *c = selmon->sel;
-    Monitor *m = selmon;
-    if(!c || !arg)
-        return;
-    c->tags = 1 << arg->ui;
+static void
+tagandview(const Arg *arg)
+{
+    tag(arg);
     view(arg);
-    focus(NULL);
-    arrange(m);
 }
 
 void
