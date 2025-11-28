@@ -43,8 +43,8 @@ Layout & Navigation
 - Mod+right,            Go to right display
 - ModShift+left,        Move window to left display
 - ModShift+right,       Move window to right display
-- Mod+#                 Move to tag
-- ModShift+#            Move window to tag
+- Mod+#,                Move to tag
+- ModShift+#,           Move window to tag
 - ModCtrl+#,            Move window to tag and follow it
 - Mod+0,                View all tags
 
