@@ -257,6 +257,8 @@ static void toggleview(const Arg *arg);
 static void tagandview(const Arg *arg);
 static void unfocus(Client *c, int setfocus);
 static void unmanage(Client *c, int destroyed);
+static void togglehalfscreen(const Arg *arg);
+static void togglehalfscreenside(const Arg *arg);
 static void unmapnotify(XEvent *e);
 static void updatebarpos(Monitor *m);
 static void updatebars(void);
@@ -276,6 +278,7 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void xrdb(const Arg *arg);
 static void zoom(const Arg *arg);
+static void altTab(const Arg *arg);
 
 static int swallow(Client *p, Client *c);
 static void unswallow(Client *c);
@@ -286,6 +289,8 @@ static Client *termforwin(const Client *c);
 static pid_t winpid(Window w);
 
 /* variables */
+static int halfscreen = 0;
+static int halfscreen_side = 0;
 static const char broken[] = "broken";
 static char stext[256];
 static char rawstext[256];
@@ -1919,9 +1924,8 @@ setfullscreen(Client *c, int fullscreen)
 void
 setlayout(const Arg *arg)
 {
-	if (!arg || !arg->v || arg->v != selmon->lt[selmon->sellt])
-		selmon->sellt ^= 1;
-	if (arg && arg->v)
+	selmon->sellt ^= 1;
+	if (arg && arg->v && arg->v != selmon->lt[selmon->sellt ^ 1])
 		selmon->lt[selmon->sellt] = (Layout *)arg->v;
 	strncpy(selmon->ltsymbol, selmon->lt[selmon->sellt]->symbol, sizeof selmon->ltsymbol);
 	if (selmon->sel)
@@ -2246,6 +2250,20 @@ unmanage(Client *c, int destroyed)
 		focus(p);
 	else
 		focus(NULL);
+}
+
+void
+togglehalfscreen(const Arg *arg)
+{
+	halfscreen = !halfscreen;
+	arrange(selmon);
+}
+
+void
+togglehalfscreenside(const Arg *arg)
+{
+	halfscreen_side = !halfscreen_side;
+	arrange(selmon);
 }
 
 void
@@ -2726,6 +2744,17 @@ zoom(const Arg *arg)
 	if (c == nexttiled(selmon->clients) && !(c = nexttiled(c->next)))
 		return;
 	pop(c);
+}
+
+static void
+altTab(const Arg *arg)
+{
+    if (!selmon->sel || !selmon->lt[selmon->sellt]->arrange)
+        return;
+
+    Arg a = { .i = -1 };
+    focusstack(&a);
+    zoom(NULL);
 }
 
 int
