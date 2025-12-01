@@ -104,8 +104,7 @@ static const Key keys[] = {
 	{ MODKEY,			XK_Tab,    view,           {0} },
 	{ MODKEY,			XK_q,      killclient,     {0} },
 	{ MODKEY|ShiftMask,		XK_q,      killclient,     {0} },
-	{ MODKEY,			XK_y,      setlayout,      {.v = &layouts[0]} }, /* spiral */
-	{ MODKEY|ShiftMask,		XK_y,      setlayout,      {.v = &layouts[1]} }, /* tile */
+	{ MODKEY,			XK_y,      setlayout,      {.v = &layouts[1]} }, /* toggle */
 	{ MODKEY|ShiftMask,		XK_0,	   tag,            {.ui = ~0 } },
 	{ MODKEY,			XK_Left,   focusmon,       {.i = -1 } },
 	{ MODKEY|ShiftMask,		XK_Left,   tagmon,         {.i = -1 } },
@@ -137,6 +136,11 @@ static const Key keys[] = {
 	{ MODKEY|ControlMask,           XK_7,	   tagandview,	   {.ui = 1 << 6} },
 	{ MODKEY|ControlMask,           XK_8,	   tagandview,	   {.ui = 1 << 7} },
 	{ MODKEY|ControlMask,           XK_9,	   tagandview,	   {.ui = 1 << 8} },
+	{ MODKEY,                       XK_BackSpace, togglehalfscreen,     {0} },
+	{ MODKEY|ShiftMask,             XK_BackSpace, togglehalfscreenside, {0} },
+	{ Mod1Mask, 			XK_Tab,    altTab, 	   {0} },
+
+
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
