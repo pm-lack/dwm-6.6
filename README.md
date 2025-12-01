@@ -33,8 +33,7 @@ Common
 - Mod+b,                Toggle statusbar
 
 Layout & Navigation
-- Mod+y,                Fibonacci spiral mode
-- ModShift+y,           Tiling mode
+- Mod+y,                Toggle layout (fibonacci and tiling)
 - Mod+f,                Toggle fullscreen
 - Mod+o,                Increase the number of master windows
 - ModShift+o,           Decrease the number of master windows
